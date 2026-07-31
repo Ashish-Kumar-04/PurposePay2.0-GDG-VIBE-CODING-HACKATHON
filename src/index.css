@@ -5,14 +5,14 @@
     --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
-  /* Theme 1: Emerald Dark Theme (Default) */
+  /* Default Emerald Dark Theme */
   [data-theme="emerald"], :root {
     --bg-primary: #0b0f19;
-    --bg-card: #111827;
-    --bg-panel: #1e293b;
+    --bg-card: rgba(30, 41, 59, 0.6);
+    --bg-panel: rgba(15, 23, 42, 0.75);
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
-    --border-color: #1e293b;
+    --border-color: rgba(255, 255, 255, 0.08);
     --accent-emerald: #10b981;
     --accent-teal: #14b8a6;
     --accent-glow: rgba(16, 185, 129, 0.35);
@@ -34,40 +34,40 @@
   /* Theme 3: Royal Indigo / Violet Theme */
   [data-theme="indigo"] {
     --bg-primary: #080a18;
-    --bg-card: #141332;
-    --bg-panel: #1e1b4b;
-    --text-primary: #f8fafc;
-    --text-secondary: #a5b4fc;
-    --border-color: #3730a3;
+    --bg-card: rgba(30, 27, 75, 0.6);
+    --bg-panel: rgba(17, 24, 39, 0.8);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.08);
     --accent-emerald: #8b5cf6;
     --accent-teal: #6366f1;
-    --accent-glow: rgba(139, 92, 246, 0.4);
+    --accent-glow: rgba(139, 92, 246, 0.35);
   }
 
   /* Theme 4: Cyberpunk Gold Theme */
   [data-theme="gold"] {
     --bg-primary: #0d0c0a;
-    --bg-card: #1c1813;
-    --bg-panel: #292319;
-    --text-primary: #fffbeb;
-    --text-secondary: #fcd34d;
-    --border-color: #78350f;
+    --bg-card: rgba(45, 35, 20, 0.6);
+    --bg-panel: rgba(26, 22, 15, 0.85);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.08);
     --accent-emerald: #f59e0b;
     --accent-teal: #d97706;
-    --accent-glow: rgba(245, 158, 11, 0.4);
+    --accent-glow: rgba(245, 158, 11, 0.35);
   }
 
-  /* Theme 5: Clean Ocean Cyan Theme */
+  /* Theme 5: Clean Ocean Teal Theme */
   [data-theme="cyan"] {
     --bg-primary: #06121e;
-    --bg-card: #0b1f33;
-    --bg-panel: #0f2d4a;
-    --text-primary: #f0fdf4;
-    --text-secondary: #67e8f9;
-    --border-color: #0369a1;
+    --bg-card: rgba(15, 38, 59, 0.6);
+    --bg-panel: rgba(10, 25, 41, 0.85);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.08);
     --accent-emerald: #06b6d4;
     --accent-teal: #0284c7;
-    --accent-glow: rgba(6, 182, 212, 0.4);
+    --accent-glow: rgba(6, 182, 212, 0.35);
   }
   
   body {
@@ -81,26 +81,16 @@
 }
 
 /* ==========================================================================
-   GLOBAL IMAGE & CARD OVERLAY RULES (PRESERVES ALL CARD IMAGES)
+   COMPLETE SNOWY WHITE LIGHT THEME OVERRIDES (DONOR PAGE & ALL COMPONENTS)
    ========================================================================== */
-img {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
+[data-theme="snow"] body,
+[data-theme="snow"] main,
+[data-theme="snow"] section,
+[data-theme="snow"] footer,
+[data-theme="snow"] div {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Card header gradient overlays remain transparent so images are 100% visible */
-.relative .bg-gradient-to-t {
-  background: linear-gradient(to top, rgba(11, 15, 25, 0.85) 0%, rgba(11, 15, 25, 0.2) 45%, transparent 100%) !important;
-}
-
-[data-theme="snow"] .relative .bg-gradient-to-t {
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 45%, transparent 100%) !important;
-}
-
-/* ==========================================================================
-   THEME 2: SNOWY WHITE LIGHT THEME OVERRIDES
-   ========================================================================== */
 [data-theme="snow"] body,
 [data-theme="snow"] main,
 [data-theme="snow"] section,
@@ -109,14 +99,39 @@ img {
   color: #0f172a !important;
 }
 
-[data-theme="snow"] section,
-[data-theme="snow"] div.hero-section,
+/* Catch ALL dark slate background utility classes in Tailwind */
+[data-theme="snow"] [class*="bg-slate-9"],
+[data-theme="snow"] [class*="bg-slate-8"],
+[data-theme="snow"] [class*="bg-indigo-950"],
+[data-theme="snow"] [class*="bg-emerald-950"],
 [data-theme="snow"] .glass-panel,
 [data-theme="snow"] .glass-card {
   background-color: #ffffff !important;
   border-color: #cbd5e1 !important;
 }
 
+/* Convert all dark hero gradients to clean light slate gradients */
+[data-theme="snow"] [class*="from-slate-9"],
+[data-theme="snow"] [class*="via-slate-9"],
+[data-theme="snow"] [class*="to-slate-9"],
+[data-theme="snow"] [class*="from-slate-950"],
+[data-theme="snow"] [class*="to-slate-950"] {
+  background-image: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+}
+
+/* Ensure images remain 100% visible and un-obscured */
+[data-theme="snow"] img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Card image overlay gradients in light mode */
+[data-theme="snow"] .relative .bg-gradient-to-t {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%) !important;
+}
+
+/* ALL text colors forced to high-contrast dark slate */
 [data-theme="snow"] .text-white,
 [data-theme="snow"] .text-slate-100,
 [data-theme="snow"] .text-slate-200 {
@@ -132,12 +147,14 @@ img {
   color: #475569 !important;
 }
 
+/* ALL border classes */
 [data-theme="snow"] [class*="border-slate-8"],
 [data-theme="snow"] [class*="border-slate-7"],
 [data-theme="snow"] [class*="border-slate-9"] {
   border-color: #cbd5e1 !important;
 }
 
+/* Explicit Book Pickup Button styling for White Theme Hover */
 [data-theme="snow"] .btn-book-pickup {
   background-color: #4f46e5 !important;
   color: #ffffff !important;
@@ -149,6 +166,24 @@ img {
   color: #ffffff !important;
 }
 
+[data-theme="snow"] .btn-book-pickup:hover {
+  background-color: #3730a3 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3) !important;
+}
+
+[data-theme="snow"] .btn-book-pickup:hover span,
+[data-theme="snow"] .btn-book-pickup:hover svg {
+  color: #ffffff !important;
+}
+
+/* Modals & Backdrop */
+[data-theme="snow"] .bg-slate-950\/85,
+[data-theme="snow"] .bg-slate-950\/80 {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+/* Forms & Input Controls */
 [data-theme="snow"] input,
 [data-theme="snow"] select,
 [data-theme="snow"] textarea {
@@ -157,94 +192,39 @@ img {
   border-color: #94a3b8 !important;
 }
 
-/* ==========================================================================
-   THEME 3: ROYAL VIOLET / INDIGO THEME OVERRIDES
-   ========================================================================== */
-[data-theme="indigo"] body,
-[data-theme="indigo"] main,
-[data-theme="indigo"] section,
-[data-theme="indigo"] footer {
-  background-color: #080a18 !important;
-  color: #f8fafc !important;
+[data-theme="snow"] option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
-[data-theme="indigo"] section,
-[data-theme="indigo"] .glass-panel,
-[data-theme="indigo"] .glass-card {
-  background-color: #141332 !important;
-  border-color: #3730a3 !important;
+[data-theme="snow"] input::placeholder,
+[data-theme="snow"] textarea::placeholder {
+  color: #64748b !important;
 }
 
-[data-theme="indigo"] [class*="border-slate-8"],
-[data-theme="indigo"] [class*="border-slate-7"],
-[data-theme="indigo"] [class*="border-slate-9"] {
-  border-color: #3730a3 !important;
+/* Table Headings & Rows */
+[data-theme="snow"] th {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
 }
 
-[data-theme="indigo"] .gradient-text-emerald {
-  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+[data-theme="snow"] td {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="snow"] tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Accent Gradients in Light Mode */
+[data-theme="snow"] .gradient-text-emerald {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* ==========================================================================
-   THEME 4: CYBERPUNK GOLD / ONYX THEME OVERRIDES
-   ========================================================================== */
-[data-theme="gold"] body,
-[data-theme="gold"] main,
-[data-theme="gold"] section,
-[data-theme="gold"] footer {
-  background-color: #0d0c0a !important;
-  color: #fffbeb !important;
-}
-
-[data-theme="gold"] section,
-[data-theme="gold"] .glass-panel,
-[data-theme="gold"] .glass-card {
-  background-color: #1c1813 !important;
-  border-color: #78350f !important;
-}
-
-[data-theme="gold"] [class*="border-slate-8"],
-[data-theme="gold"] [class*="border-slate-7"],
-[data-theme="gold"] [class*="border-slate-9"] {
-  border-color: #78350f !important;
-}
-
-[data-theme="gold"] .gradient-text-emerald {
-  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ==========================================================================
-   THEME 5: CLEAN OCEAN CYAN THEME OVERRIDES
-   ========================================================================== */
-[data-theme="cyan"] body,
-[data-theme="cyan"] main,
-[data-theme="cyan"] section,
-[data-theme="cyan"] footer {
-  background-color: #06121e !important;
-  color: #f0fdf4 !important;
-}
-
-[data-theme="cyan"] section,
-[data-theme="cyan"] .glass-panel,
-[data-theme="cyan"] .glass-card {
-  background-color: #0b1f33 !important;
-  border-color: #0369a1 !important;
-}
-
-[data-theme="cyan"] [class*="border-slate-8"],
-[data-theme="cyan"] [class*="border-slate-7"],
-[data-theme="cyan"] [class*="border-slate-9"] {
-  border-color: #0369a1 !important;
-}
-
-[data-theme="cyan"] .gradient-text-emerald {
-  background: linear-gradient(135deg, #22d3ee 0%, #0284c7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.glow-emerald {
+  box-shadow: 0 0 25px -5px var(--accent-glow);
 }
 
 /* Custom Scrollbar */

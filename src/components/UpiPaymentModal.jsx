@@ -26,20 +26,8 @@ export const UpiPaymentModal = () => {
     setTrackerModalDonation
   } = useApp();
 
-  // Redirect to ItemDonationModal if this is an item requirement
-  useEffect(() => {
-    if (paymentModalReq && paymentModalReq.type === 'item') {
-      setItemModalReq(paymentModalReq);
-      setPaymentModalReq(null);
-    }
-  }, [paymentModalReq, setItemModalReq, setPaymentModalReq]);
-
-  if (!paymentModalReq || paymentModalReq.type === 'item') return null;
-
   const [step, setStep] = useState('amount'); // 'amount' | 'pin' | 'success'
-  const [amount, setAmount] = useState(
-    paymentModalReq.unitPrice ? (paymentModalReq.unitPrice * 5).toString() : '1500'
-  );
+  const [amount, setAmount] = useState('1500');
   const [selectedVpa, setSelectedVpa] = useState(user.upiId || 'rahul@okaxis');
   const [customName, setCustomName] = useState(user.name);
   const [upiPin, setUpiPin] = useState(['', '', '', '']);
@@ -47,6 +35,26 @@ export const UpiPaymentModal = () => {
   const [completedDonation, setCompletedDonation] = useState(null);
 
   const presetAmounts = [250, 500, 1500, 3000, 5000];
+
+  // Reset modal state whenever paymentModalReq changes
+  useEffect(() => {
+    if (paymentModalReq) {
+      if (paymentModalReq.type === 'item') {
+        setItemModalReq(paymentModalReq);
+        setPaymentModalReq(null);
+      } else {
+        setStep('amount');
+        setAmount(paymentModalReq.unitPrice ? (paymentModalReq.unitPrice * 5).toString() : '1500');
+        setSelectedVpa(user.upiId || 'rahul@okaxis');
+        setCustomName(user.name || 'Rahul Sharma');
+        setUpiPin(['', '', '', '']);
+        setIsProcessing(false);
+        setCompletedDonation(null);
+      }
+    }
+  }, [paymentModalReq, user, setItemModalReq, setPaymentModalReq]);
+
+  if (!paymentModalReq || paymentModalReq.type === 'item') return null;
 
   const handlePinChange = (index, val) => {
     if (!/^\d*$/.test(val)) return;
@@ -134,6 +142,7 @@ export const UpiPaymentModal = () => {
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="1500"
                   className="w-full pl-12 pr-4 py-3 bg-slate-950 border border-slate-700 rounded-2xl text-2xl font-black text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                  required
                 />
               </div>
             </div>
@@ -178,7 +187,7 @@ export const UpiPaymentModal = () => {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-sm hover:shadow-lg hover:shadow-emerald-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
+              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-sm hover:shadow-lg hover:shadow-emerald-500/20 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer"
             >
               <span>Pay ₹{parseFloat(amount || 0).toLocaleString()} via UPI</span>
               <ArrowRight className="w-4 h-4" />
@@ -219,6 +228,7 @@ export const UpiPaymentModal = () => {
 
             <div className="pt-2 flex items-center space-x-3">
               <button
+                type="button"
                 onClick={() => setStep('amount')}
                 className="w-1/3 py-3 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition-all"
               >
@@ -226,9 +236,10 @@ export const UpiPaymentModal = () => {
               </button>
 
               <button
+                type="button"
                 disabled={isProcessing}
                 onClick={handleConfirmPayment}
-                className="w-2/3 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs shadow-lg transition-all flex items-center justify-center space-x-2"
+                className="w-2/3 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
                 {isProcessing ? (
                   <>
@@ -280,22 +291,24 @@ export const UpiPaymentModal = () => {
 
             <div className="space-y-2.5 pt-2">
               <button
+                type="button"
                 onClick={() => {
                   setPaymentModalReq(null);
                   setTrackerModalDonation(completedDonation);
                 }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs shadow-md hover:scale-[1.01] transition-all flex items-center justify-center space-x-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs shadow-md hover:scale-[1.01] transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <span>Track Impact Milestones</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
 
               <button
+                type="button"
                 onClick={() => {
                   setPaymentModalReq(null);
                   setReceiptModalDonation(completedDonation);
                 }}
-                className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-all flex items-center justify-center space-x-2"
+                className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <FileText className="w-4 h-4 text-emerald-400" />
                 <span>View & Download 80G Receipt</span>
